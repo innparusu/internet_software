@@ -2,13 +2,13 @@
 App::import('Vendor','OAuth/OAuthClient');
 
 class ExamplesController extends AppController {
-    public $uses = array('');
+    public $uses = array('User');
     //public $uses = array('User', 'Post');
-    public $components = array('Auth', 'DebugKit.Toolbar');
+    public $components = array('Auth', 'Cookie', 'DebugKit.Toolbar');
 
     public function beforefilter(){
-        //$this->Auth->userModel = 'User';   //認証モデル設定
-        $this->Auth->allow('login','twitter','callback' );
+        $this->Auth->userModel = 'User';   //認証モデル設定
+        $this->Auth->allow('login','twitter','callback', 'logout');
         $this->Auth->loginRedirect = array('controller' => 'examples','action' => 'index');
         $this->Auth->logoutRedirect = array('controller' => 'examples','action' => 'logout');
         $this->Auth->loginAction = '/examples/login';
@@ -46,19 +46,14 @@ class ExamplesController extends AppController {
                 'https://api.twitter.com/1.1/account/verify_credentials.json',
                 array());
             $twitterData = json_decode($json,true);
-            /*
-            $this->User->update(
-                            Array(
-                                "id" => $twitterData['id_str'],
-                                "name" => $twitterData['screen_name'],
-                                "access_token_key" => $accessToken->key,
-                                "access_token_secret" => $accessToken->secret,
-                            ));
-             */
+            $user['id'] = $twitterData['id_str'];
+            $user['name'] = $twitterData['name'];
+            $user['screen_name'] = $twitterData['screen_name'];
             $user['access_token_key'] = $accessToken->key;
             $user['access_token_secret'] = $accessToken->secret;
-            $user['twitter_id'] = $twitterData['id_str'];
-            $user['screen_name'] = $twitterData['screen_name'];
+            
+            $this->User->save($user);
+            $this->Cookie->write('id', $user['id']);
 
             if ($this->Auth->login($user)) {
                 $this->redirect($this->Auth->redirect()/*'/examples/test'*/);
@@ -71,25 +66,24 @@ class ExamplesController extends AppController {
         }
 
     }
-    public function login(){
-        //echo 'called from:'.$this->Auth->loginRedirect;
-        $user = $this->Auth->user();
 
-        if(isset($user['example_name'])){
-            $this->redirect($this->Auth->loginRedirect);
-        } else if($this->request->is('post')){
-            if($this->Auth->login()){
-                return $this->redirect($this->Auth->redirect());
-            } else {
-                $this->Session->setFlash(__('Authentication Failure'), 'default', array('class'=>'error-message'), 'auth');
-            }
+    public function login(){
+        $user = $this->Auth->user();
+        if(isset($user['id'])){
+            return $this->redirect($this->Auth->redirect());
         }
 
+        // Cookie login
+        $cookieValue = $this->Cookie->read('id');
+        $user        = $this->User->read(null, $cookieValue);
+        if($this->Auth->login($user["User"])){
+            return $this->redirect($this->Auth->redirect());
+        }
     }
 
     public function logout(){
         $this->Auth->logout();
-        $this->flash('トップページにとぶ','index');
+        $this->flash('再ログインはこちら','index');
     }
 
     public function index() {
@@ -109,7 +103,6 @@ class ExamplesController extends AppController {
             'users',
             'twitterData'
         ));
-        //print_r($data);
     }
 
     function __createComsumer(){
