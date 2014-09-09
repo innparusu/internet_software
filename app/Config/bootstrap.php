@@ -109,3 +109,6 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+// Composer
+CakePlugin::load('Composer', array('bootstrap' => true));
