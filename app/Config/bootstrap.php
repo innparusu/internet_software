@@ -112,3 +112,6 @@ CakeLog::config('error', array(
 
 // Composer
 CakePlugin::load('Composer', array('bootstrap' => true));
+
+// haml
+CakePlugin::load('Haml', array('bootstrap' => true));

@@ -1,1 +1,8 @@
-{"config":{"vendor-dir":"Vendor"}}
+{
+    "require": {
+        "tiutalk/haml": "dev-master"
+    },
+    "config":{
+        "vendor-dir":"Vendor"
+    }
+}
