@@ -19,6 +19,15 @@ class PostsController extends AppController {
       'conditions' => $conditions,   // 検索条件の指定
       'order' => $order,                  // 取得順序の指定
     ));
-    $this->set('post', $post);  // View(app/View/view.ctp)に $posts 変数を渡す
+    $this->set('post', $post);  // View(app/View/view.ctp)に $post 変数を渡す
+  }
+
+  public function add() {
+    if ($this->request->isPost()) {
+      if($this->Post->save($this->request->data)){
+        $this->Session->setFlash('Post Saved');
+      }
+      $this->set('post', $this->request->data);
+    }
   }
 }
