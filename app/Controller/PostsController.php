@@ -27,7 +27,17 @@ class PostsController extends AppController {
       if($this->Post->save($this->request->data)){
         $this->Session->setFlash('Post Saved');
       }
-      $this->set('post', $this->request->data);
     }
+  }
+
+  public function edit($id) {
+    $this->Post->id=$id;
+    if ($this->request->isPost() || $this->request->isPut()) {
+      if ($this->Post->save($this->request->data)) {
+        $this->Session->setFlash('Post update');
+        $this->redirect(array('action' => 'view', $id));
+      }
+    }
+    $this->request->data = $this->Post->findById($id);
   }
 }
