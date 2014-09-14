@@ -5,6 +5,9 @@ App::uses('AppController', 'Controller');
  *
  */
 class PostsController extends AppController {
+  public function index() {
+  }
+
   public function view($id) {
     if(isset($id)){
       // $id に該当するフィールドを取得するための条件
@@ -39,5 +42,13 @@ class PostsController extends AppController {
       }
     }
     $this->request->data = $this->Post->findById($id);
+  }
+
+  public function delete($id) {
+    $this->Post->id=$id;
+    if($this->Post->delete()){
+      $this->Session->setFlash('Post delete');
+      $this->redirect('index');
+    }
   }
 }
