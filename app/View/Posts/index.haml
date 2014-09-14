@@ -1,0 +1,17 @@
+%h1 Posts一覧
+
+%table
+  %tr
+    %th ID
+    %th
+    %th
+    %th
+
+  - foreach($posts as $post)
+    %tr
+      %td=$post["Post"]["id"]
+      %td=$this->Html->link('View',   array('action' => 'view', $post["Post"]["id"]))
+      %td=$this->Html->link('Edit',   array('action' => 'edit', $post["Post"]["id"]))
+      %td=$this->Html->link('Delete', array('action' => 'delete', $post["Post"]["id"]))
+
+=$this->Html->link('New Post', array('action' => 'add'))

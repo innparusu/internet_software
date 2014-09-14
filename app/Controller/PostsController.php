@@ -6,6 +6,10 @@ App::uses('AppController', 'Controller');
  */
 class PostsController extends AppController {
   public function index() {
+    $posts = $this->Post->find('all', array(
+      'order' => array('Post.id asc')
+    ));
+    $this->set('posts', $posts);
   }
 
   public function view($id) {
@@ -29,6 +33,7 @@ class PostsController extends AppController {
     if ($this->request->isPost()) {
       if($this->Post->save($this->request->data)){
         $this->Session->setFlash('Post Saved');
+        $this->redirect('index');
       }
     }
   }

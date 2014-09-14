@@ -1,3 +1,5 @@
-- while (list($key, $val) = each($post["Post"]))
-  .p 
+- foreach($post["Post"] as $key => $val)
+  %p 
     = "${key}: ${val}"
+
+=$this->Html->link('Index', array('action' => 'index'))
