@@ -1,5 +1,5 @@
 %h2 Chat
-
+= $this->assign('title_for_layout', "chat")
 = $this->Form->create('Chat-form', array('type'=>'post'))
 = $this->Form->input('text')
 = $this->Js->submit('Send', array('before'=>$this->Js->get('#sending')->effect('fadeIn'),'success'=>$this->Js->get('#sending')->effect('fadeOut'), 'update'=>'.chat-area', 'url'=>'/chats/send'))
