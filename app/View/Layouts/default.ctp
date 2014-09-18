@@ -32,10 +32,11 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
-        echo $this->Html->script( 'jquery-2.1.1.min', array( 'inline' => false ));
+    echo $this->Html->script( 'jquery-2.1.1.min', array( 'inline' => false ));
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
+    echo $this->Js->writeBuffer(array( 'inline' => 'true' ));
 	?>
 </head>
 <body>

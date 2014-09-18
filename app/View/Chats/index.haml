@@ -1,0 +1,9 @@
+%h2 Chat
+
+= $this->Form->create('Chat-form', array('type'=>'post'))
+= $this->Form->input('text')
+= $this->Js->submit('Send', array('before'=>$this->Js->get('#sending')->effect('fadeIn'),'success'=>$this->Js->get('#sending')->effect('fadeOut'), 'update'=>'.chat-area', 'url'=>'/chats/send'))
+= $this->Form->end();
+
+#sending{ :style => "display: none" } sending
+.chat-area
