@@ -2,8 +2,9 @@ require "em-websocket"
 
 connections = []
 
-EM::WebSocket.start(host: "localhost", port: 51234) do |ws|
+EM::WebSocket.start(host: "192.168.33.10", port: 51234) do |ws|
   ws.onopen do
+    puts "open"
     # add connections
     connections << ws
   end
@@ -14,6 +15,6 @@ EM::WebSocket.start(host: "localhost", port: 51234) do |ws|
   end
 
   ws.onclose do
-
+    puts "close"
   end
 end
