@@ -1,8 +1,7 @@
 {
     "require": {
-        "tiutalk/haml": "dev-master"
+        "tiutalk/haml": "dev-master",
+        "slywalker/boost_cake": "*"
     },
-    "config":{
-        "vendor-dir":"Vendor"
-    }
+    "config":{"vendor-dir":"Vendor"}
 }

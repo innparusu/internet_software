@@ -30,26 +30,29 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
     <?php
         echo $this->Html->meta('icon');
         echo $this->Html->css('cake.generic');
+        // jquery
         echo $this->Html->script( 'jquery-2.1.1.min', array( 'inline' => false ));
         echo $this->Html->script( 'chat.js'.'?'.time(), array( 'inline' => false ));
         echo $this->fetch('meta');
         echo $this->fetch('css');
         echo $this->fetch('script');
         echo $this->Js->writeBuffer(array( 'inline' => 'true' ));
+        echo $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
+        echo $this->Html->script( '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js');
     ?>
 </head>
 <body>
-    <div id="container">
-        <div id="header">
+    <div id="container" class="container">
+        <div class="l-header">
             <h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
         </div>
-        <div id="content">
+        <div class="p-content">
 
             <?php echo $this->Session->flash(); ?>
 
             <?php echo $this->fetch('content'); ?>
         </div>
-        <div id="footer">
+        <div class="l-footer">
 <?php echo $this->Html->link(
     $this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
     'http://www.cakephp.org/',

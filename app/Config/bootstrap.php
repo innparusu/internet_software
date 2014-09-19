@@ -115,3 +115,6 @@ CakePlugin::load('Composer', array('bootstrap' => true));
 
 // haml
 CakePlugin::load('Haml', array('bootstrap' => true));
+
+// BootStrap
+CakePlugin::load('BoostCake');

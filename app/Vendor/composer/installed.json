@@ -187,5 +187,49 @@
             "HAML",
             "cakephp"
         ]
+    },
+    {
+        "name": "slywalker/boost_cake",
+        "version": "1.0.5",
+        "version_normalized": "1.0.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/slywalker/cakephp-plugin-boost_cake.git",
+            "reference": "a5551800a0ce83a0b7ec0c9f0351f8f218be3771"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/slywalker/cakephp-plugin-boost_cake/zipball/a5551800a0ce83a0b7ec0c9f0351f8f218be3771",
+            "reference": "a5551800a0ce83a0b7ec0c9f0351f8f218be3771",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "*",
+            "php": ">=5.3.0"
+        },
+        "suggest": {
+            "twitter/bootstrap": "Bootstrap for Twitter"
+        },
+        "time": "2014-01-09 03:56:57",
+        "type": "cakephp-plugin",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Yasuo Harada",
+                "email": "slywalker.net@gmail.com",
+                "homepage": "https://github.com/slywalker"
+            }
+        ],
+        "description": "BoostCake is a plugin for CakePHP using Bootstrap",
+        "homepage": "http://slywalker.github.io/cakephp-plugin-boost_cake/",
+        "keywords": [
+            "bootstrap",
+            "cakephp",
+            "twitter"
+        ]
     }
 ]
