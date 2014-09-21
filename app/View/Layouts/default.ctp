@@ -30,12 +30,12 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
     <?php
         echo $this->Html->meta('icon');
         echo $this->Html->css('cake.generic');
-        // Make css
+        // Made css
         echo $this->Html->css('foundations/normalize');
-        echo $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
+        echo $this->Html->css('objects/projects/chat');
         // jquery
         echo $this->Html->script( 'jquery-2.1.1.min', array( 'inline' => false ));
-        // Make javascript
+        // Made javascript
         echo $this->Html->script( 'chat.js'.'?'.time(), array( 'inline' => false ));
         echo $this->fetch('meta');
         echo $this->fetch('css');
