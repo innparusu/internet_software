@@ -29,11 +29,13 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
     </title>
     <?php
         echo $this->Html->meta('icon');
-        echo $this->Html->css('cake.generic');
         // Made css
         echo $this->Html->css('foundations/normalize');
         echo $this->Html->css('objects/projects/chat');
         echo $this->Html->css('objects/utilities/margin');
+        echo $this->Html->css('objects/utilities/padding');
+        echo $this->Html->css('objects/utilities/text');
+        echo $this->Html->css('objects/utilities/size');
         // jquery
         echo $this->Html->script( 'jquery-2.1.1.min', array( 'inline' => false ));
         // Made javascript
