@@ -20,4 +20,10 @@ class User extends AppModel {
  */
 	public $displayField = 'name';
 
+  public $hasMany = array(
+    'Messages' => array(
+      'className' => 'Message',
+      'foreignKey' => 'user_id'
+    )
+  );
 }
