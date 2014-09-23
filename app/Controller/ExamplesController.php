@@ -7,7 +7,7 @@ class ExamplesController extends AppController {
     public function beforefilter(){
         $this->Auth->userModel = 'User';   //認証モデル設定
         $this->Auth->allow('login','twitter','callback', 'logout');
-        $this->Auth->loginRedirect = array('controller' => 'examples','action' => 'index');
+        $this->Auth->loginRedirect = array('controller' => 'chats','action' => 'index');
         $this->Auth->logoutRedirect = array('controller' => 'examples','action' => 'logout');
         $this->Auth->loginAction = '/examples/login';
 
@@ -75,38 +75,38 @@ class ExamplesController extends AppController {
         $cookieValue = $this->Cookie->read('id');
         $user        = $this->User->read(null, $cookieValue);
         if($this->Auth->login($user["User"])){
-            return $this->redirect($this->Auth->redirect());
+          return $this->redirect($this->Auth->redirect());
         }
     }
 
     public function logout(){
-        $this->Auth->logout();
-        $this->flash('再ログインはこちら','index');
+      $this->Auth->logout();
+      $this->flash('再ログインはこちら',array('controller' => 'chats','action' => 'index'));
     }
 
     public function index() {
-        $users =$this->Auth->user();
-        $comsumer = $this->__createComsumer();
+      $users =$this->Auth->user();
+      $comsumer = $this->__createComsumer();
 
-        $twitterData="";
-        $json=$comsumer->get(
-            $users['access_token_key'],
-            $users['access_token_secret'],
-            'https://api.twitter.com/1.1/statuses/home_timeline.json',
-            array('count' => '30')
-        );
-        $twitterData = json_decode($json,true);
+      $twitterData="";
+      $json=$comsumer->get(
+        $users['access_token_key'],
+        $users['access_token_secret'],
+        'https://api.twitter.com/1.1/statuses/home_timeline.json',
+        array('count' => '30')
+      );
+      $twitterData = json_decode($json,true);
 
-        $this->set(compact(
-            'users',
-            'twitterData'
-        ));
+      $this->set(compact(
+        'users',
+        'twitterData'
+      ));
     }
 
     function __createComsumer(){
-        return new OAuthClient(
-            getenv('TWITTER_API_KEY'),
-            getenv('TWITTER_API_SECRET'));
+      return new OAuthClient(
+        getenv('TWITTER_API_KEY'),
+        getenv('TWITTER_API_SECRET'));
     }
 }
 ?>

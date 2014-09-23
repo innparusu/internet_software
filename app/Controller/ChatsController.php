@@ -1,6 +1,5 @@
 <?php
 App::uses('AppController', 'Controller');
-
 class ChatsController extends AppController {
   public $uses = array('User', 'Message');
   public $helpers = array('Js');
@@ -8,7 +7,7 @@ class ChatsController extends AppController {
   public function beforefilter(){
     $this->Auth->userModel = 'User';   //認証モデル設定
     $this->Auth->allow('login','twitter','callback', 'logout');
-    $this->Auth->loginRedirect = array('controller' => 'examples','action' => 'index');
+    $this->Auth->loginRedirect = array('controller' => 'chats','action' => 'index');
     $this->Auth->logoutRedirect = array('controller' => 'examples','action' => 'logout');
     $this->Auth->loginAction = '/examples/login';
 
