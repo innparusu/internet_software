@@ -3,7 +3,7 @@ $(function () {
   ws = new WebSocket("ws://192.168.33.10:51234");
 
   ws.onmessage = function (event) {
-    $(".chat-area").append("<p>" + event.data + "</p>");
+    $(".p-chat__area").append("<p>" + event.data + "</p>");
     $(".p-chat__text").val("");
   };
 

@@ -1,9 +1,13 @@
 %h2 Chat
+.p-chat__area
+
 = $this->assign('title_for_layout', "chat")
-= $this->Form->create('Chat-form', array('type'=>'post'))
-= $this->Form->input('text', array('class'=>'p-chat__text'))
-= $this->Js->submit('Send', array('class'=>'p-chat__submit-button', 'before'=>$this->Js->get('#sending')->effect('fadeIn'),'success'=>$this->Js->get('#sending')->effect('fadeOut')))
+= $this->Form->create('chat-form', array('type'=>'post', 'class'=>'u-margin-top-10'))
+.row
+  .col-xs-8
+    = $this->Form->text('Chat-text',array('class'=>'p-chat__text u-text-size-20 u-width-100per'))
+  .col-xs-4
+    = $this->Js->submit('Send', array('class'=>'btn btn-primary p-chat__submit-button', 'before'=>$this->Js->get('#sending')->effect('fadeIn'),'success'=>$this->Js->get('#sending')->effect('fadeOut')))
 = $this->Form->end();
 
-#sending{ :style => "display: none" } sending
-.chat-area
+#sending.p-chat__sending{ :style => "display: none"} sending
