@@ -1,6 +1,4 @@
 <?php
-App::import('Vendor','OAuth/OAuthClient');
-
 class ExamplesController extends AppController {
     public $uses = array('User');
     //public $uses = array('User', 'Post');

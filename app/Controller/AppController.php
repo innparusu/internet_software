@@ -1,4 +1,5 @@
 <?php
+App::import('Vendor','OAuth/OAuthClient');
 /**
  * Application level Controller
  *
