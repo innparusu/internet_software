@@ -4,6 +4,7 @@ class ChatsController extends AppController {
   public $uses = array('User', 'Message');
   public $helpers = array('Js');
   public $components = array('RequestHandler','Auth', 'Cookie', 'DebugKit.Toolbar');
+
   public function beforefilter(){
     $this->Auth->userModel = 'User';   //認証モデル設定
     $this->Auth->allow('login','twitter','callback', 'logout');
@@ -18,7 +19,16 @@ class ChatsController extends AppController {
   }
 
   public function index() {
-
+    $user      = $this->Auth->user();
+    $comsumer  = $this->__createComsumer();
+    $json      = $comsumer->get(
+        $user['access_token_key'],
+        $user['access_token_secret'],
+        'https://api.twitter.com/1.1/users/show.json',
+        array('screen_name' => $user['screen_name'])
+    );
+    $user      = json_decode($json, true);
+    $this->set('user', $user);
   }
 
   public function send() {
@@ -26,6 +36,16 @@ class ChatsController extends AppController {
       $this->redirect('/');
       return;
     }
-    $this->render('/Chats/chat-area', 'ajax');
+    $user      = $this->Auth->user();
+    $message['body']    = $this->request->data['chat-form']['Chat-text'];
+    $message['user_id'] = $user['id'];
+    $this->Message->save($message);
+    $this->autoRender = false;
+  }
+
+  function __createComsumer(){
+    return new OAuthClient(
+      getenv('TWITTER_API_KEY'),
+      getenv('TWITTER_API_SECRET'));
   }
 }
