@@ -37,6 +37,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         echo $this->Html->css('objects/utilities/text');
         echo $this->Html->css('objects/utilities/size');
         echo $this->Html->css('objects/utilities/position');
+        echo $this->Html->css('objects/utilities/border');
         // jquery
         echo $this->Html->script( 'jquery-2.1.1.min', array( 'inline' => false ));
         // Made javascript
