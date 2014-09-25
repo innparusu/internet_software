@@ -3,11 +3,12 @@
 
 = $this->assign('title_for_layout', "chat")
 = $this->Form->create('chat-form', array('type'=>'post', 'class'=>'u-margin-top-10'))
-.row
-  .col-xs-8
-    = $this->Form->text('Chat-text',array('class'=>'p-chat__text u-text-size-20 u-width-100per'))
-  .col-xs-4
-    = $this->Js->submit('Send', array('class'=>'btn btn-primary p-chat__submit-button', 'before'=>$this->Js->get('#sending')->effect('fadeIn'),'success'=>$this->Js->get('#sending')->effect('fadeOut')))
+.row.u-padding-lr-15
+  .col-xs-1.u-padding-0
+    %img.p-chat__user-image.right{ :src => $user['profile_image_url'], :width => '60', :height => '60' }
+  .col-xs-9.u-padding-0
+    = $this->Form->textarea('Chat-text',array('class'=>'p-chat__text u-text-size-20 u-width-100per'))
+  .col-xs-2.u-padding-0
+    = $this->Js->submit('Send', array('class'=>'btn btn-primary p-chat__submit-button u-width-100per u-height-60', 'before'=>$this->Js->get('#sending')->effect('fadeIn'),'success'=>$this->Js->get('#sending')->effect('fadeOut'), 'url'=>'/chats/send'))
 = $this->Form->end();
-
 #sending.p-chat__sending{ :style => "display: none"} sending
