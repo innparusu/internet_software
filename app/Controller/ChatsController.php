@@ -21,13 +21,6 @@ class ChatsController extends AppController {
   public function index() {
     $user      = $this->Auth->user();
     $comsumer  = $this->__createComsumer();
-    $json      = $comsumer->get(
-        $user['access_token_key'],
-        $user['access_token_secret'],
-        'https://api.twitter.com/1.1/users/show.json',
-        array('screen_name' => $user['screen_name'])
-    );
-    $user      = json_decode($json, true);
     $this->set('user', $user);
   }
 
