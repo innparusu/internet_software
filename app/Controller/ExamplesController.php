@@ -24,59 +24,61 @@ class ExamplesController extends AppController {
             'http://127.0.0.1:8080/examples/callback');
         print_r($requestToken);
         if ($requestToken) {
-            $this->Session->write('twitter_request_token', $requestToken);
-            $this->redirect('https://api.twitter.com/oauth/authorize?oauth_token=' . $requestToken->key);
+          $this->Session->write('twitter_request_token', $requestToken);
+          $this->redirect('https://api.twitter.com/oauth/authorize?oauth_token=' . $requestToken->key);
+        } else {
+          $this->Session->setFlash(__('Create Comsumer Failure'), 'default', array('class'=>'error-message'), 'auth');
         }
     }
 
     // 認証後、このアクションが呼ばれる
     public function callback() {
-        $requestToken=$this->Session->read('twitter_request_token');
-        $comsumer = $this->__createComsumer();
-        $accessToken = $comsumer->getAccessToken(
-            'https://api.twitter.com/oauth/access_token',
-            $requestToken);
+      $requestToken=$this->Session->read('twitter_request_token');
+      $comsumer = $this->__createComsumer();
+      $accessToken = $comsumer->getAccessToken(
+        'https://api.twitter.com/oauth/access_token',
+        $requestToken);
 
-        if($accessToken){
-            $json=$comsumer->get(
-                $accessToken->key,
-                $accessToken->secret,
-                'https://api.twitter.com/1.1/account/verify_credentials.json',
-                array());
-            $twitterData = json_decode($json,true);
-            $user['id'] = $twitterData['id_str'];
-            $user['name'] = $twitterData['name'];
-            $user['screen_name'] = $twitterData['screen_name'];
-            $user['access_token_key'] = $accessToken->key;
-            $user['access_token_secret'] = $accessToken->secret;
-            
-            $this->User->save($user);
-            $this->Cookie->write('id', $user['id']);
+      if($accessToken){
+        $json=$comsumer->get(
+          $accessToken->key,
+          $accessToken->secret,
+          'https://api.twitter.com/1.1/account/verify_credentials.json',
+          array());
+        $twitterData                 = json_decode($json,true);
+        $user['id']                  = $twitterData['id_str'];
+        $user['name']                = $twitterData['name'];
+        $user['screen_name']         = $twitterData['screen_name'];
+        $user['access_token_key']    = $accessToken->key;
+        $user['access_token_secret'] = $accessToken->secret;
+        $user['image_url']           = $twitterData['profile_image_url'];
+        $this->User->save($user);
+        $this->Cookie->write('id', $user['id']);
 
-            if ($this->Auth->login($user)) {
-                $this->redirect($this->Auth->redirect()/*'/examples/test'*/);
-            }
-            else {
-                $this->redirect('index');
-            }
-        } else {
-            $this->redirect('index');
+        if ($this->Auth->login($user)) {
+          $this->redirect($this->Auth->redirect()/*'/examples/test'*/);
         }
+        else {
+          $this->redirect('index');
+        }
+      } else {
+        $this->redirect('index');
+      }
 
     }
 
     public function login(){
-        $user = $this->Auth->user();
-        if(isset($user['id'])){
-            return $this->redirect($this->Auth->redirect());
-        }
+      $user = $this->Auth->user();
+      if(isset($user['id'])){
+        return $this->redirect($this->Auth->redirect());
+      }
 
-        // Cookie login
-        $cookieValue = $this->Cookie->read('id');
-        $user        = $this->User->read(null, $cookieValue);
-        if($this->Auth->login($user["User"])){
-          return $this->redirect($this->Auth->redirect());
-        }
+      // Cookie login
+      $cookieValue = $this->Cookie->read('id');
+      $user        = $this->User->read(null, $cookieValue);
+      if($this->Auth->login($user["User"])){
+        return $this->redirect($this->Auth->redirect());
+      }
     }
 
     public function logout(){
