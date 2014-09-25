@@ -8,9 +8,9 @@ class ChatsController extends AppController {
   public function beforefilter(){
     $this->Auth->userModel = 'User';   //認証モデル設定
     $this->Auth->allow('login','twitter','callback', 'logout');
-    $this->Auth->loginRedirect = array('controller' => 'chats','action' => 'index');
+    $this->Auth->loginRedirect  = array('controller' => 'chats','action' => 'index');
     $this->Auth->logoutRedirect = array('controller' => 'examples','action' => 'logout');
-    $this->Auth->loginAction = '/examples/login';
+    $this->Auth->loginAction    = '/examples/login';
 
     $this->Auth->fields = array(
       'username' => 'access_token_key',
@@ -20,8 +20,9 @@ class ChatsController extends AppController {
 
   public function index() {
     $user      = $this->Auth->user();
+    $messages  = $this->Message->find('all', array('order' => array('Message.id asc')));
     $comsumer  = $this->__createComsumer();
-    $this->set('user', $user);
+    $this->set(compact('user', 'messages'));
   }
 
   public function send() {
@@ -29,7 +30,7 @@ class ChatsController extends AppController {
       $this->redirect('/');
       return;
     }
-    $user      = $this->Auth->user();
+    $user               = $this->Auth->user();
     $message['body']    = $this->request->data['chat-form']['Chat-text'];
     $message['user_id'] = $user['id'];
     $this->Message->save($message);
