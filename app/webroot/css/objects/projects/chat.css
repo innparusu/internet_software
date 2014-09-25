@@ -5,3 +5,7 @@
     height: 400px;
     overflow: scroll;
 }
+
+.p-chat__submit-button {
+    border-radius: 0px !important;
+}
