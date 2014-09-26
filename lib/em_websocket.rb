@@ -1,4 +1,5 @@
 require "em-websocket"
+require "json"
 
 connections = []
 
@@ -10,6 +11,8 @@ EM::WebSocket.start(host: "192.168.33.10", port: 51234) do |ws|
   end
 
   ws.onmessage do |message|
+    parsed_message = JSON.parse(message)
+    parsed_message["body"].gsub!(/\r\n|\r|\n/, "<br />")
     # send_message
     connections.each{|conn| conn.send(message) }
   end
