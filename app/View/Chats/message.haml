@@ -1,0 +1,9 @@
+%h1
+  ="{$user['User']['screen_name']} の投稿内容"
+
+%table
+  %tr
+    %th 投稿内容
+  - foreach($messages as $message)
+    %tr
+      %td=$message["body"]

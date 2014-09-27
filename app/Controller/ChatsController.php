@@ -1,8 +1,8 @@
 <?php
 App::uses('AppController', 'Controller');
 class ChatsController extends AppController {
-  public $uses = array('User', 'Message');
-  public $helpers = array('Js');
+  public $uses       = array('User', 'Message');
+  public $helpers    = array('Js');
   public $components = array('RequestHandler','Auth', 'Cookie', 'DebugKit.Toolbar');
 
   public function beforefilter(){
@@ -19,9 +19,9 @@ class ChatsController extends AppController {
   }
 
   public function index() {
-    $user      = $this->Auth->user();
-    $messages  = $this->Message->find('all', array('order' => array('Message.id asc')));
-    $comsumer  = $this->__createComsumer();
+    $user     = $this->Auth->user();
+    $messages = $this->Message->find('all', array('order' => array('Message.id asc')));
+    $comsumer = $this->__createComsumer();
     $this->set(compact('user', 'messages'));
   }
 
@@ -35,6 +35,13 @@ class ChatsController extends AppController {
     $message['user_id'] = $user['id'];
     $this->Message->save($message);
     $this->autoRender = false;
+  }
+
+  public function message() {
+    $user     = $this->Auth->user();
+    $user     = $this->User->read(null, $user['id']);
+    $messages = $user['Messages'];
+    $this->set(compact('user', 'messages'));
   }
 
   function __createComsumer(){
