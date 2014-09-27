@@ -21,3 +21,5 @@
     = $this->Js->submit("Send", array("class"=>"btn btn-primary p-chat__submit-button u-width-100per u-height-60", "before"=>$this->Js->get("#sending")->effect("fadeIn"),"success"=>$this->Js->get("#sending")->effect("fadeOut")))
 = $this->Form->end();
 #sending.p-chat__sending{ :style => "display: none"} sending
+
+= $this->Html->link("投稿一覧", "/chats/message", array("class" => "left btn btn-primary"))
