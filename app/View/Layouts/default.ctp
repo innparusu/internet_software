@@ -57,6 +57,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         <div class="l-header">
             <div class="container">
                 <?php echo $this->html->link('Twitter認証でChat', '/chats', array('class' => 'left l-header__link')); ?>
+                <?php echo $this->html->link('Postテーブル操作', '/posts', array('class' => 'left l-header__link')); ?>
                 <?php if(isset($user)) {
                     echo $this->html->link('ログアウト', '/examples/logout', array('class' => 'right l-header__link'));
                 }else {
