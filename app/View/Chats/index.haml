@@ -1,23 +1,23 @@
+= $this->assign("title_for_layout", "chat")
 %h2 Chat
 .p-chat__area
   - foreach($messages as $message)
     .row.u-border-lightgray
       .col-xs-2.u-margin-top-5
-        %img.right{ :src => $message['User']['image_url'], :width => '40', :height => '40' }
+        %img.right{ :src => $message["User"]["image_url"], :width => "40", :height => "40" }
       .col-xs-10.u-padding-0
         %p.u-text-color-gray
-          =$message['User']['screen_name']
+          =$message["User"]["screen_name"]
         %p
-          =$message['Message']['body']
+          =$message["Message"]["body"]
 
-= $this->assign('title_for_layout', "chat")
-= $this->Form->create('chat-form', array('type'=>'post', 'class'=>'u-margin-top-10'))
+= $this->Form->create("chat-form", array("type"=>"post", "class"=>"u-margin-top-10"))
 .row.u-padding-lr-15
   .col-xs-1.u-padding-0
-    %img.p-chat__user-image.right{ :src => $user['image_url'], :width => '60', :height => '60' }
+    %img.p-chat__user-image.right{ :src => $user["image_url"], :width => "60", :height => "60", :alt => $user["screen_name"] }
   .col-xs-9.u-padding-0
-    = $this->Form->textarea('Chat-text',array('class'=>'p-chat__text u-text-size-20 u-width-100per'))
+    = $this->Form->textarea("Chat-text",array("class"=>"p-chat__text u-text-size-20 u-width-100per"))
   .col-xs-2.u-padding-0
-    = $this->Js->submit('Send', array('class'=>'btn btn-primary p-chat__submit-button u-width-100per u-height-60', 'before'=>$this->Js->get('#sending')->effect('fadeIn'),'success'=>$this->Js->get('#sending')->effect('fadeOut'), 'url'=>'/chats/send'))
+    = $this->Js->submit("Send", array("class"=>"btn btn-primary p-chat__submit-button u-width-100per u-height-60", "before"=>$this->Js->get("#sending")->effect("fadeIn"),"success"=>$this->Js->get("#sending")->effect("fadeOut"), "url"=>"/chats/send"))
 = $this->Form->end();
 #sending.p-chat__sending{ :style => "display: none"} sending
