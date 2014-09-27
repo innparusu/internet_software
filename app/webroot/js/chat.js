@@ -14,9 +14,17 @@ $(function () {
   $(".p-chat__submit-button").click(function () {
     screen_name = $(".p-chat__user-image").attr("alt");
     messageBody = $(".p-chat__text").val();
+    if(messageBody == "") {
+	return;
+    }
     imageUrl    = $(".p-chat__user-image").attr("src");
     message = { screen_name: screen_name, body: messageBody, image_url: imageUrl };
     ws.send(JSON.stringify(message));
+    $.ajax({
+      type: "post",
+      url: "/chats/send",
+      data: "body="+ messageBody
+    });
+    $(".p-chat__text").val("");
   });
 });
-

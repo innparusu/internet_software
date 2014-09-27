@@ -31,7 +31,7 @@ class ChatsController extends AppController {
       return;
     }
     $user               = $this->Auth->user();
-    $message['body']    = $this->request->data['chat-form']['Chat-text'];
+    $message['body']    = $this->request->data['body'];
     $message['user_id'] = $user['id'];
     $this->Message->save($message);
     $this->autoRender = false;

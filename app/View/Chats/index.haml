@@ -18,6 +18,6 @@
   .col-xs-9.u-padding-0
     = $this->Form->textarea("Chat-text",array("class"=>"p-chat__text u-text-size-20 u-width-100per"))
   .col-xs-2.u-padding-0
-    = $this->Js->submit("Send", array("class"=>"btn btn-primary p-chat__submit-button u-width-100per u-height-60", "before"=>$this->Js->get("#sending")->effect("fadeIn"),"success"=>$this->Js->get("#sending")->effect("fadeOut"), "url"=>"/chats/send"))
+    = $this->Js->submit("Send", array("class"=>"btn btn-primary p-chat__submit-button u-width-100per u-height-60", "before"=>$this->Js->get("#sending")->effect("fadeIn"),"success"=>$this->Js->get("#sending")->effect("fadeOut")))
 = $this->Form->end();
 #sending.p-chat__sending{ :style => "display: none"} sending
