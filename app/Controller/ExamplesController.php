@@ -6,7 +6,7 @@ class ExamplesController extends AppController {
 
     public function beforefilter(){
         $this->Auth->userModel = 'User';   //認証モデル設定
-        $this->Auth->allow('login','twitter','callback', 'logout');
+        $this->Auth->allow('login', 'twitter', 'callback', 'cookieLogin', 'logout');
         $this->Auth->loginRedirect = array('controller' => 'chats','action' => 'index');
         $this->Auth->logoutRedirect = array('controller' => 'examples','action' => 'logout');
         $this->Auth->loginAction = '/examples/login';
@@ -64,7 +64,6 @@ class ExamplesController extends AppController {
       } else {
         $this->redirect('index');
       }
-
     }
 
     public function login(){
@@ -72,12 +71,32 @@ class ExamplesController extends AppController {
       if(isset($user['id'])){
         return $this->redirect($this->Auth->redirect());
       }
+    }
 
-      // Cookie login
+    // Cookie login
+    public function cookieLogin() {
       $cookieValue = $this->Cookie->read('id');
       $user        = $this->User->read(null, $cookieValue);
-      if($this->Auth->login($user["User"])){
-        return $this->redirect($this->Auth->redirect());
+      $comsumer    = $this->__createComsumer();
+      // データを更新
+      $json=$comsumer->get(
+        $user['User']['access_token_key'],
+        $user['User']['access_token_secret'],
+        'https://api.twitter.com/1.1/account/verify_credentials.json',
+        array());
+      $twitterData                 = json_decode($json,true);
+      $user['User']['id']          = $twitterData['id_str'];
+      $user['User']['name']        = $twitterData['name'];
+      $user['User']['screen_name'] = $twitterData['screen_name'];
+      $user['User']['image_url']   = $twitterData['profile_image_url'];
+      $this->User->save($user);
+        $this->Cookie->write('id', $user['User']['id']);
+
+      if ($this->Auth->login($user['User'])) {
+        $this->redirect($this->Auth->redirect()/*'/examples/test'*/);
+      }
+      else {
+        $this->redirect('index');
       }
     }
 
