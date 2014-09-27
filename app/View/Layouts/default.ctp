@@ -31,6 +31,8 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         echo $this->Html->meta('icon');
         // flocss
         echo $this->Html->css('foundations/normalize');
+        echo $this->Html->css('layouts/header');
+        echo $this->Html->css('objects/projects/chat');
         echo $this->Html->css('objects/projects/chat');
         echo $this->Html->css('objects/utilities/margin');
         echo $this->Html->css('objects/utilities/padding');
@@ -51,12 +53,18 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
     ?>
 </head>
 <body>
-    <div id="container" class="container">
+    <div>
         <div class="l-header">
-            <h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+            <div class="container">
+                <?php echo $this->html->link('Twitter認証でChat', '/chats', array('class' => 'left l-header__link')); ?>
+                <?php if(isset($user)) {
+                    echo $this->html->link('ログアウト', '/examples/logout', array('class' => 'right l-header__link'));
+                }else {
+                    echo $this->html->link('ログイン', '/examples/login', array('class' => 'right l-header__link'));
+                }?>
+            </div>
         </div>
-        <div class="p-content">
-
+        <div class="p-content container">
             <?php echo $this->Session->flash(); ?>
 
             <?php echo $this->fetch('content'); ?>
