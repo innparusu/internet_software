@@ -1,39 +1,49 @@
-CakePHP
-=======
+# 使い方
 
-[![CakePHP](http://cakephp.org/img/cake-logo.png)](http://www.cakephp.org)
+## WebSocket
+このChatアプリケーションではWebSocketサーバーをRubyのGemであるem-websocketを使用して実現しているため,Rubyの環境が必要となります.
 
-CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC.
-Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility.
+### 動作環境
+- Ruby 2.1.2p95
+- em-websocket 0.5.1
+- json 1.8.1
 
-Some Handy Links
-----------------
+### gem インストール方法
+```
+$ gem install em-websocket
+$ gem install json
+```
 
-[CakePHP](http://www.cakephp.org) - The rapid development PHP framework
+### スクリプト実行方法
+スクリプトはapp/Lib/em_websocket.rb にあります
+```
+$ ruby app/Lib/em_websocket.rb
+```
+で実行できます(誰かがsocketサーバー接続するまで何も表示されません).
+#### 実行前に
+実行前にスクリプトファイル内の
+``` ruby
+# ここでhostはこのスクリプトを実行しているホストのIPを指定する(ここではVagrantFileの既存のIPアドレスを指定している)
+EM::WebSocket.start(host: "192.168.33.10", port: 51234) do |ws| 
+```
+とwebsocketに接続する処理が書かれているapp/webroot/js/chat.js
+``` javascript
+// WebSocketのインスタンスを生成(WebSocketサーバーを立ち上げているIPアドレスを指定)
+ws = new WebSocket("ws://192.168.33.10:51234");
+```
+の部分はコメントにあるとおり,スクリプトを実行しているホストのIPアドレスを指定する必要があります。デフォルトではVagrantFileでコメント化されている"192.168.33.10"が設定されています。
+ポート番号は使われていないものを使用して下さい.
 
-[Cookbook](http://book.cakephp.org) - THE Cake user documentation; start learning here!
+## Twitter API KEY関連について
+Twitter API KEY, API SECRETは(/etc/httpd/conf/httpd.conf)で環境変数を下記の名前で設定する必要があります.
+- TWITTER_API_KEY 
+- TWITTER_API_SECRET
 
-[Plugins](http://plugins.cakephp.org/) - A repository of extensions to the framework
+## CakePHPの使用plugin
+app/Plugin/ に全て入っているので使えると思いますが,念のため。
+追加したpluginは以下のとおりです。
 
-[The Bakery](http://bakery.cakephp.org) - Tips, tutorials and articles
+- Composer
+- Haml
+- BoostCake <- ほぼ使用しなくてもよい
 
-[API](http://api.cakephp.org) - A reference to Cake's classes
-
-[CakePHP TV](http://tv.cakephp.org) - Screen casts from events and video tutorials
-
-[The Cake Software Foundation](http://cakefoundation.org/) - promoting development related to CakePHP
-
-Get Support!
-------------
-
-[Our Google Group](https://groups.google.com/group/cake-php) - community mailing list and forum
-
-[#cakephp](http://webchat.freenode.net/?channels=#cakephp) on irc.freenode.net - Come chat with us, we have cake.
-
-[Q & A](http://ask.cakephp.org/) - Ask questions here, all questions welcome
-
-[Lighthouse](https://cakephp.lighthouseapp.com/) - Got issues? Please tell us!
-
-[![Bake Status](https://secure.travis-ci.org/cakephp/cakephp.png?branch=master)](http://travis-ci.org/cakephp/cakephp)
-
-![Cake Power](https://raw.github.com/cakephp/cakephp/master/lib/Cake/Console/Templates/skel/webroot/img/cake.power.gif)
