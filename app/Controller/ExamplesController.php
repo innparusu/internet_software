@@ -39,6 +39,7 @@ class ExamplesController extends AppController {
         'https://api.twitter.com/oauth/access_token',
         $requestToken);
 
+      // accessTokenからユーザー情報を取得 -> UserデータをUserテーブルに保存
       if($accessToken){
         $json=$comsumer->get(
           $accessToken->key,
@@ -53,8 +54,11 @@ class ExamplesController extends AppController {
         $user['access_token_secret'] = $accessToken->secret;
         $user['image_url']           = $twitterData['profile_image_url'];
         $this->User->save($user);
+
+        // CookieにUserのidを追加
         $this->Cookie->write('id', $user['id']);
 
+        // ログイン
         if ($this->Auth->login($user)) {
           $this->redirect($this->Auth->redirect()/*'/examples/test'*/);
         }
@@ -75,10 +79,12 @@ class ExamplesController extends AppController {
 
     // Cookie login
     public function cookieLogin() {
+      // cookieからUserデータを取り出す
       $cookieValue = $this->Cookie->read('id');
       $user        = $this->User->read(null, $cookieValue);
       $comsumer    = $this->__createComsumer();
-      // データを更新
+      
+      // Userデータを更新
       $json=$comsumer->get(
         $user['User']['access_token_key'],
         $user['User']['access_token_secret'],
@@ -90,8 +96,9 @@ class ExamplesController extends AppController {
       $user['User']['screen_name'] = $twitterData['screen_name'];
       $user['User']['image_url']   = $twitterData['profile_image_url'];
       $this->User->save($user);
-        $this->Cookie->write('id', $user['User']['id']);
+      $this->Cookie->write('id', $user['User']['id']);
 
+      // ログイン
       if ($this->Auth->login($user['User'])) {
         $this->redirect($this->Auth->redirect()/*'/examples/test'*/);
       }
@@ -125,6 +132,7 @@ class ExamplesController extends AppController {
     }
 
     function __createComsumer(){
+      // 環境変数からAPI_KEY, SECRETを取得(/etc/httpd/conf/httpd.confに設定)
       return new OAuthClient(
         getenv('TWITTER_API_KEY'),
         getenv('TWITTER_API_SECRET'));

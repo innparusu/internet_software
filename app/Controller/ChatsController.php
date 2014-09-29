@@ -18,6 +18,7 @@ class ChatsController extends AppController {
   }
 
   public function index() {
+    // 全てのMessageデータを取得し,MessageデータとUserデータをViewに渡す
     $user     = $this->Auth->user();
     $messages = $this->Message->find('all', array('order' => array('Message.id asc')));
     $comsumer = $this->__createComsumer();
@@ -25,10 +26,13 @@ class ChatsController extends AppController {
   }
 
   public function send() {
-    if(!$this->request->is('ajax')) { // ajaxでなければ
+    // ajaxでなければ
+    if(!$this->request->is('ajax')) { 
       $this->redirect('/');
       return;
     }
+    
+    // ajaxならばMessageをログインUserと関連付けて保存
     $user               = $this->Auth->user();
     $message['body']    = $this->request->data['body'];
     $message['user_id'] = $user['id'];
@@ -37,6 +41,7 @@ class ChatsController extends AppController {
   }
 
   public function message() {
+    // ログインUserが持っている(has_many)Messageを全て取得し,Viewに渡す
     $user     = $this->Auth->user();
     $user     = $this->User->read(null, $user['id']);
     $messages = $user['Messages'];
@@ -44,6 +49,7 @@ class ChatsController extends AppController {
   }
 
   function __createComsumer(){
+    // 環境変数からAPI_KEY, SECRETを取得(/etc/httpd/conf/httpd.confに設定)
     return new OAuthClient(
       getenv('TWITTER_API_KEY'),
       getenv('TWITTER_API_SECRET'));

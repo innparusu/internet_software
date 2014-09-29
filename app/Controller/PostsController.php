@@ -5,11 +5,13 @@ App::uses('AppController', 'Controller');
  *
  */
 class PostsController extends AppController {
+
   public function index() {
+    // Postテーブルのすべてのデータを取り出す
     $posts = $this->Post->find('all', array(
       'order' => array('Post.id asc')
     ));
-    $this->set('posts', $posts);
+    $this->set('posts', $posts); // Viewに$posts変数を渡す
   }
 
   public function view($id) {
@@ -26,10 +28,11 @@ class PostsController extends AppController {
       'conditions' => $conditions,   // 検索条件の指定
       'order' => $order,                  // 取得順序の指定
     ));
-    $this->set('post', $post);  // View(app/View/view.ctp)に $post 変数を渡す
+    $this->set('post', $post);  // Viewに $post 変数を渡す
   }
 
   public function add() {
+    // Postならばフォームからデータを取り出し,保存する
     if ($this->request->isPost()) {
       if($this->Post->save($this->request->data)){
         $this->Session->setFlash('Post Saved');
@@ -39,21 +42,32 @@ class PostsController extends AppController {
   }
 
   public function edit($id) {
-    $this->Post->id=$id;
+    // Post or Putならば引数で指定したidのデータを更新し,Viewアクションにリダイレクションする
     if ($this->request->isPost() || $this->request->isPut()) {
+      $this->Post->id = $id;
       if ($this->Post->save($this->request->data)) {
         $this->Session->setFlash('Post update');
         $this->redirect(array('action' => 'view', $id));
       }
     }
-    $this->request->data = $this->Post->findById($id);
+
+    // GetならばEditViewのフォームに最初の値をセットする
+    if($user = $this->Post->findById($id)) {
+      $this->request->data = $user;
+    } else {
+      $this->Session->setFlash('No Data');
+      $this->redirect('index');
+    }
   }
 
   public function delete($id) {
-    $this->Post->id=$id;
+    // 指定したidのデータを削除
+    $this->Post->id = $id;
     if($this->Post->delete()){
       $this->Session->setFlash('Post delete');
-      $this->redirect('index');
+    } else {
+      $this->Session->setFlash('No Data or Delete Failed');
     }
+    $this->redirect('index');
   }
 }
