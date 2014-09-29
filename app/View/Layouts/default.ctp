@@ -40,16 +40,21 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
         echo $this->Html->css('objects/utilities/size');
         echo $this->Html->css('objects/utilities/position');
         echo $this->Html->css('objects/utilities/border');
+        
         // jquery
         echo $this->Html->script( 'jquery-2.1.1.min', array( 'inline' => false ));
+
         // Made javascript
         echo $this->Html->script( 'chat.js'.'?'.time(), array( 'inline' => false ));
+
         echo $this->fetch('meta');
         echo $this->fetch('css');
         echo $this->fetch('script');
+        // bootstrap css
+        echo $this->Html->css('bootstrap.min.css');
+        // bootstrap javascript
+        echo $this->Html->script( 'bootstrap.min.js');
         echo $this->Js->writeBuffer(array( 'inline' => 'true' ));
-        echo $this->Html->css('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css');
-        echo $this->Html->script( '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js');
     ?>
 </head>
 <body>
