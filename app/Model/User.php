@@ -20,6 +20,7 @@ class User extends AppModel {
  */
 	public $displayField = 'name';
 
+  // Messageに対してhas_many関係にする
   public $hasMany = array(
     'Messages' => array(
       'className' => 'Message',

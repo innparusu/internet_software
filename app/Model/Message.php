@@ -22,6 +22,8 @@ class Message extends AppModel {
  *
  * @var array
  */
+
+  // Userに対してbelongs_to関連にする
 	public $belongsTo = array(
 		'User' => array(
 			'className' => 'User',
