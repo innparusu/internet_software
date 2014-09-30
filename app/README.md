@@ -8,10 +8,6 @@
 - em-websocket 0.5.1
 - json 1.8.1
 
-<<<<<<< HEAD
-=======
-
->>>>>>> login_redirect_innparusu
 ### gem インストール方法
 ```
 $ gem install em-websocket
